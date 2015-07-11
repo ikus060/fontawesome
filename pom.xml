@@ -1,0 +1,130 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.patrikdufresne</groupId>
+	<artifactId>com.patrikdufresne.fontawesome</artifactId>
+	<version>4.3.0-1-SNAPSHOT</version>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
+	<!-- Custom repository for JFace stuff. -->
+	<repositories>
+		<repository>
+			<id>patrikdufresne</id>
+			<url>http://nexus.patrikdufresne.com/content/repositories/public/</url>
+		</repository>
+	</repositories>
+	<!-- Define the SCM used for developpement. This information is used by 
+		release:prepare -->
+	<scm>
+		<developerConnection>scm:git:https://github.com/ikus060/fontawesome.git</developerConnection>
+		<tag>HEAD</tag>
+	</scm>
+	<!-- Define the repository. Used by deploy:deploy -->
+	<distributionManagement>
+		<repository>
+			<id>patrikdufresne</id>
+			<name>Internal Releases</name>
+			<url>http://nexus.patrikdufresne.com/content/repositories/releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>patrikdufresne</id>
+			<name>Internal Releases</name>
+			<url>http://nexus.patrikdufresne.com/content/repositories/snapshots/</url>
+		</snapshotRepository>
+	</distributionManagement>
+	<profiles>
+		<profile>
+			<id>linux_x86_64</id>
+			<activation>
+				<os>
+					<name>linux</name>
+					<arch>amd64</arch>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.gtk.linux.x86_64</artifactId>
+					<version>[4.2.1,)</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+		<profile>
+			<id>win_x86</id>
+			<activation>
+				<os>
+					<family>windows</family>
+					<arch>amd64</arch>
+				</os>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>org.eclipse.swt</groupId>
+					<artifactId>org.eclipse.swt.win32.win32.x86_64</artifactId>
+					<version>[4.2.1,)</version>
+					<scope>provided</scope>
+				</dependency>
+			</dependencies>
+		</profile>
+	</profiles>
+	<build>
+		<plugins>
+			<!-- javac version to 1.6 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.0</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+				</configuration>
+			</plugin>
+			<!-- generate source package -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>2.4</version>
+				<executions>
+					<execution>
+						<id>attach-sources</id>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<!-- Formatting -->
+			<plugin>
+				<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+				<artifactId>maven-java-formatter-plugin</artifactId>
+				<version>0.3.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>format</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<configFile>src/main/build-tools/formatter.xml</configFile>
+					<lineEnding>CRLF</lineEnding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.eclipse.jface</groupId>
+			<artifactId>org.eclipse.jface</artifactId>
+			<version>[3.8.0.v20120521-2329,)</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.11</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
