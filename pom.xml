@@ -111,6 +111,19 @@
 					<lineEnding>CRLF</lineEnding>
 				</configuration>
 			</plugin>
+			<!-- Write version in Manifest -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.5</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
 		</plugins>
 	</build>
 	<dependencies>
