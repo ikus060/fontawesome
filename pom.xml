@@ -2,7 +2,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.patrikdufresne</groupId>
 	<artifactId>com.patrikdufresne.fontawesome</artifactId>
-	<version>4.3.0-2-SNAPSHOT</version>
+	<version>4.3.0-2</version>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
@@ -17,7 +17,7 @@
 		release:prepare -->
 	<scm>
 		<developerConnection>scm:git:https://github.com/ikus060/fontawesome.git</developerConnection>
-		<tag>HEAD</tag>
+		<tag>com.patrikdufresne.fontawesome-4.3.0-2</tag>
 	</scm>
 	<!-- Define the repository. Used by deploy:deploy -->
 	<distributionManagement>
