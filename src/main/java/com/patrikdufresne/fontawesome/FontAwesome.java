@@ -688,7 +688,12 @@ public class FontAwesome {
     public static Font getFont(int size) {
         String name = FONTAWESOME + size;
         if (!JFaceResources.getFontRegistry().hasValueFor(FONTAWESOME)) {
-            FontData[] data = getFont().getFontData();
+            // GetFont() may return null, so handle this case.
+            Font font = getFont();
+            if (font == null) {
+                return null;
+            }
+            FontData[] data = font.getFontData();
             for (FontData d : data) {
                 d.setHeight(size);
             }
@@ -723,6 +728,9 @@ public class FontAwesome {
             // Load the font.
             return Display.getDefault().loadFont(tempfile.getAbsolutePath());
         } catch (IOException e) {
+            // This should rarely happen, but clearly, when this happen we need
+            // to print something to a log file. Otherwise there is no way to debug this.
+            e.printStackTrace();
             return false;
         }
     }
