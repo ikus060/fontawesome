@@ -687,7 +687,7 @@ public class FontAwesome {
      */
     public static Font getFont(int size) {
         String name = FONTAWESOME + size;
-        if (!JFaceResources.getFontRegistry().hasValueFor(FONTAWESOME)) {
+        if (!JFaceResources.getFontRegistry().hasValueFor(name)) {
             // GetFont() may return null, so handle this case.
             Font font = getFont();
             if (font == null) {
