@@ -16,7 +16,7 @@
 	<!-- Define the SCM used for developpement. This information is used by 
 		release:prepare -->
 	<scm>
-		<developerConnection>scm:git:https://github.com/ikus060/fontawesome.git</developerConnection>
+		<developerConnection>scm:git:http://git.patrikdufresne.com/common/fontawesome.git</developerConnection>
 		<tag>HEAD</tag>
 	</scm>
 	<!-- Define the repository. Used by deploy:deploy -->
