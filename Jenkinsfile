@@ -24,7 +24,11 @@ pipeline {
                     pom = readMavenPom file: 'pom.xml'
                     version = pom.version.replace("-SNAPSHOT", "-${BUILD_NUMBER}")
                 }
-                sh 'git reset --hard'
+                sh '''
+                    git reset --hard
+                    git config --local user.email "jenkins@patrikdufresne.com"
+                    git config --local user.name "Jenkins"
+                '''
                 sh "mvn --settings settings.xml -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize -Dresume=false release:prepare release:perform -B"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git --tags"
             }
