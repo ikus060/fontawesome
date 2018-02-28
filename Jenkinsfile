@@ -4,7 +4,7 @@ pipeline {
         GITLAB = credentials("gitlab-jenkins")	
     }
     parameters {
-        booleanParam(defaultValue: false, description: 'Promote build', name: 'PROMOTE')
+        booleanParam(defaultValue: false, description: 'Generate a release build with a tagged version.', name: 'RELEASE')
     }
     agent {
         docker {
@@ -19,9 +19,9 @@ pipeline {
                 sh 'mvn --settings settings.xml -U -Dmaven.test.failure.ignore=true clean deploy'
             }
         }
-        stage ('Promote') {
+        stage ('Release') {
             when {
-                environment name: 'PROMOTE', value: 'true'
+                environment name: 'RELEASE', value: 'true'
             }
             steps {
                 script {
@@ -29,15 +29,14 @@ pipeline {
                     pom = readMavenPom file: 'pom.xml'
                     version = pom.version.replace("-SNAPSHOT", "-${BUILD_NUMBER}")
                 }
-                sh '''
-                    git config --local user.email "jenkins@patrikdufresne.com"
-                    git config --local user.name "Jenkins"
-                    git checkout .
-                '''
-                sh "mvn --settings settings.xml -U -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpreparationGoals=initialize -DpushChanges=false -DlocalCheckout=true -Dresume=false release:prepare release:perform -B"
-                sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git --tags"
-                sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git"
-                addInfoBadge "Release ${version}"
+                sh 'git config --local user.email "jenkins@patrikdufresne.com"'
+                sh 'git config --local user.name "Jenkins"'
+                sh 'git checkout .'
+                sh "mvn versions:set ${version}"
+                sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
+                sh "git tag "v${version}""
+                sh "git push --tags"
+                addInfoBadge "v${version}"
             }
         }
     }
