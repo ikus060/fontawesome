@@ -35,6 +35,7 @@ pipeline {
                 sh "mvn versions:set -DnewVersion=${version}"
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
                 sh "git tag 'v${version}'"
+                sh "env"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/common/fontawesome.git --tags"
                 addInfoBadge "v${version}"
             }
