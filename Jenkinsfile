@@ -32,7 +32,7 @@ pipeline {
                 sh 'git config --local user.email "jenkins@patrikdufresne.com"'
                 sh 'git config --local user.name "Jenkins"'
                 sh 'git checkout .'
-                sh "mvn versions:set ${version}"
+                sh "mvn versions:set -DnewVersion=${version}"
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
                 sh "git tag 'v${version}'"
                 sh "git push --tags"
