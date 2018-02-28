@@ -26,6 +26,7 @@ pipeline {
                 }
                 sh '''
                     git reset --hard
+                    git checkout master
                     git config --local user.email "jenkins@patrikdufresne.com"
                     git config --local user.name "Jenkins"
                 '''
