@@ -13,7 +13,7 @@ pipeline {
         stage ('Build') {
             steps {
                 writeFile file: "settings.xml", text: "<settings><servers><server><id>patrikdufresne</id><username>${NEXUS_USR}</username><password>${NEXUS_PSW}</password></server></servers></settings>"
-                sh 'mvn --settings settings.xml -Dmaven.test.failure.ignore=true clean deploy'
+                sh 'mvn --settings settings.xml -U -Dmaven.test.failure.ignore=true clean deploy'
             }
         }
         stage ('Publish') {
@@ -30,7 +30,7 @@ pipeline {
                     git config --local user.email "jenkins@patrikdufresne.com"
                     git config --local user.name "Jenkins"
                 '''
-                sh "mvn -U --settings settings.xml -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize -Dresume=false release:prepare release:perform -B"
+                sh "mvn --settings settings.xml -U -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize -Dresume=false release:prepare release:perform -B"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git --tags"
             }
         }
