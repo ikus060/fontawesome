@@ -29,12 +29,12 @@ pipeline {
                     pom = readMavenPom file: 'pom.xml'
                     version = pom.version.replace("-SNAPSHOT", "-${BUILD_NUMBER}")
                 }
-                sh 'git config --local user.email "jenkins@patrikdufresne.com"'
-                sh 'git config --local user.name "Jenkins"'
                 sh 'git checkout .'
                 sh "mvn versions:set -DnewVersion=${version}"
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
                 sh """
+                	git config --local user.email "jenkins@patrikdufresne.com"
+                	git config --local user.name "Jenkins"
                 	git tag 'v${version}'
 					export REPO=`git config remote.origin.url`
                     git push http://${GITLAB}@${REPO#*//} --tags
