@@ -4,22 +4,8 @@ pipeline {
         GITLAB = credentials("gitlab-jenkins")	
     }
     parameters {
-        booleanParam(defaultValue: false, description: 'Promote the build.', name: 'PROMOTE')
+        booleanParam(defaultValue: false, description: 'Promote build', name: 'PROMOTE')
     }
-    options {
-        promotions {
-          promotion {
-            name('Development')
-            conditions {
-              manual('ikus060')
-            }
-            actions {
-              shell('echo hello;')
-            }
-          }
-        }
-    }
-    
     agent {
         docker {
             image 'jamesdbloom/docker-java7-maven'
@@ -51,6 +37,8 @@ pipeline {
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize -Dresume=false release:prepare release:perform -B"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git --tags"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git "
+                
+                currentBuild.description = "my new description"
             }
         }
     }
