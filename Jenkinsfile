@@ -34,7 +34,7 @@ pipeline {
                     git config --local user.email "jenkins@patrikdufresne.com"
                     git config --local user.name "Jenkins"
                 '''
-                sh "mvn --settings settings.xml -U -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -DpreparationGoals=initialize -Dresume=false release:prepare release:perform -B"
+                sh "mvn --settings settings.xml -U -Dmaven.test.skip=true -DreleaseVersion=${version} -DdevelopmentVersion=${pom.version} -DpushChanges=false -DlocalCheckout=true -Dresume=false release:prepare release:perform -B"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git --tags"
                 sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git "
                 addInfoBadge "Release ${version}"
