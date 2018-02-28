@@ -37,7 +37,7 @@ pipeline {
                 	git config --local user.name "Jenkins"
                 	git tag 'v${version}'
 					export REPO=`git config remote.origin.url`
-                    git push http://${GITLAB}@${REPO#*//} --tags
+                    git push http://${GITLAB}@$${REPO#*//} --tags
                 """
                 addInfoBadge "v${version}"
             }
