@@ -25,8 +25,7 @@ pipeline {
                     version = pom.version.replace("-SNAPSHOT", "-${BUILD_NUMBER}")
                 }
                 sh '''
-                    git reset --hard
-                    git checkout master
+                    git reset --hard origin/master
                     git config --local user.email "jenkins@patrikdufresne.com"
                     git config --local user.name "Jenkins"
                 '''
