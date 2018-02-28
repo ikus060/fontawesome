@@ -4,7 +4,7 @@ pipeline {
         GITLAB = credentials("gitlab-jenkins")	
     }
     parameters {
-        booleanParam(defaultValue: false, description: 'Generate a release build with a tagged version.', name: 'RELEASE')
+        booleanParam(defaultValue: false, description: 'Generate a release build with a tagged version.', name: 'Release')
     }
     agent {
         docker {
@@ -21,7 +21,7 @@ pipeline {
         }
         stage ('Release') {
             when {
-                environment name: 'RELEASE', value: 'true'
+                environment name: 'Release', value: 'true'
             }
             steps {
                 script {
@@ -35,7 +35,7 @@ pipeline {
                 sh "mvn versions:set -DnewVersion=${version}"
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
                 sh "git tag 'v${version}'"
-                sh "git push --tags"
+                sh "git push http://${GITLAB}@git.patrikdufresne.com/pdsl/minarca.git --tags"
                 addInfoBadge "v${version}"
             }
         }
