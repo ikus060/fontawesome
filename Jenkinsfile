@@ -6,7 +6,7 @@ pipeline {
     parameters {
         booleanParam(defaultValue: false, description: 'Promote the build.', name: 'PROMOTE')
     }
-    properties {
+    options {
         promotions {
           promotion {
             name('Development')
