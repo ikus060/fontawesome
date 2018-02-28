@@ -4,7 +4,7 @@ pipeline {
         GITLAB = credentials("gitlab-jenkins")	
     }
     parameters {
-        booleanParam(defaultValue: false, description: 'Promote the build.', name: 'PROMOT')
+        booleanParam(defaultValue: false, description: 'Promote the build.', name: 'PROMOTE')
     }
     agent {
         docker {
