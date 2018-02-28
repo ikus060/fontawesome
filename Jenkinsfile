@@ -34,7 +34,7 @@ pipeline {
                 sh 'git checkout .'
                 sh "mvn versions:set ${version}"
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
-                sh "git tag "v${version}""
+                sh "git tag 'v${version}'"
                 sh "git push --tags"
                 addInfoBadge "v${version}"
             }
