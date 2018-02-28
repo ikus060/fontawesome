@@ -1,7 +1,7 @@
 pipeline {
     environment {
         NEXUS = credentials("local-nexus")
-        GITLAB = credentials("gitlab-jenkins")	
+        GITLAB = credentials("gitlab-jenkins")
     }
     parameters {
         booleanParam(defaultValue: false, description: 'Generate a release build with a tagged version.', name: 'Release')
