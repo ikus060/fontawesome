@@ -6,17 +6,20 @@ pipeline {
     parameters {
         booleanParam(defaultValue: false, description: 'Promote the build.', name: 'PROMOTE')
     }
-    promotions {
-      promotion {
-        name('Development')
-        conditions {
-          manual('ikus060')
+    properties {
+        promotions {
+          promotion {
+            name('Development')
+            conditions {
+              manual('ikus060')
+            }
+            actions {
+              shell('echo hello;')
+            }
+          }
         }
-        actions {
-          shell('echo hello;')
-        }
-      }
     }
+    
     agent {
         docker {
             image 'jamesdbloom/docker-java7-maven'
