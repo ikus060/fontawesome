@@ -28,6 +28,7 @@ pipeline {
                     // We want to pick up the version from the pom
                     pom = readMavenPom file: 'pom.xml'
                     version = pom.version.replace("-SNAPSHOT", "-${BUILD_NUMBER}")
+                    gitrepo = scm.userRemoteConfigs[0].url  
                 }
                 sh 'git config --local user.email "jenkins@patrikdufresne.com"'
                 sh 'git config --local user.name "Jenkins"'
@@ -36,7 +37,7 @@ pipeline {
                 sh "mvn --settings settings.xml -U -Dmaven.test.skip=true deploy"
                 sh "git tag 'v${version}'"
                 sh "env"
-                sh "git push http://${GITLAB}@git.patrikdufresne.com/common/fontawesome.git --tags"
+                sh "git push http://${GITLAB}@${gitrepo} --tags"
                 addInfoBadge "v${version}"
             }
         }
