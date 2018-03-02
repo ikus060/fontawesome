@@ -2,6 +2,7 @@ pipeline {
     environment {
         NEXUS = credentials("local-nexus")
         GITLAB = credentials("gitlab-jenkins")
+        GITHUB = credentials("github")
     }
     parameters {
         booleanParam(defaultValue: false, description: 'Generate a release build with a tagged version.', name: 'Release')
@@ -40,6 +41,12 @@ pipeline {
                     git push http://${GITLAB}@\044{REPO#*//} --tags
                 """
                 addInfoBadge "v${version}"
+            }
+        }
+        stage('GitHubPush') {
+            steps { 
+                sh "git push --force https://${GITHUB}@github.com/ikus060/fontawesome.git refs/remotes/origin/${BRANCH_NAME}:refs/heads/${BRANCH_NAME}"
+                sh "git push https://${GITHUB}@github.com/ikus060/fontawesome.git --tags"
             }
         }
     }
