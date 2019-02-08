@@ -151,6 +151,7 @@
 			<groupId>org.eclipse.jface</groupId>
 			<artifactId>org.eclipse.jface</artifactId>
 			<version>[3.8.0.v20120521-2329,)</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
